@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using SelfServiceHub.Models;
+using SelfServiceHub.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // configure the MySQL database connection with Entity Framework Core
 var version = builder.Configuration["Database:ServerVersion"];
+
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(

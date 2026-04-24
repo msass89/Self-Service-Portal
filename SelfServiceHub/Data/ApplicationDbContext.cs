@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SelfServiceHub.Models;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
@@ -11,7 +11,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder); // WICHTIG für Identity!
+        base.OnModelCreating(builder); // important for Identity!
 
     }
 
