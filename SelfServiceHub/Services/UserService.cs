@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using SelfServiceHub.Models;
 
-
 namespace SelfServiceHub.Services
 {
     public class UserService
     {
-        // use Identity UserManager to manage users
+        // use Identity UserManager to manage users 
         private readonly UserManager<ApplicationUser> _userManager;
 
         public UserService(UserManager<ApplicationUser> userManager)
