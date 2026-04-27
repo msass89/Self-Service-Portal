@@ -25,7 +25,14 @@ namespace SelfServiceHub.Services
 
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password)
         {
+            // Identity automatically hashes the password and stores it securely in the database
+            // Sql injection is prevented by using parameterized queries under the hood
             return await _userManager.CreateAsync(user, password);
+        }
+        
+        public async Task<IdentityResult> AddClaimAsync(ApplicationUser user, string claimType, string claimValue)
+        {
+            return await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim(claimType, claimValue));
         }
 
         public async Task<IdentityResult> AddUserToRoleAsync(ApplicationUser user, string role)
