@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SelfServiceHub.Models;
+using SelfServiceHub.Services;
 
 namespace SelfServiceHub.Areas.Identity.Pages.Account
 {
@@ -22,9 +23,12 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager)
+        private readonly UserService _userService;
+
+        public LoginModel(SignInManager<ApplicationUser> signInManager, UserService userService)
         {
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         [BindProperty]
@@ -55,17 +59,23 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 // use the sign in manager to sign in the user
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                // enable account lockout on failure to lock out users after 5 failed login attempts for 5 minutes
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     // if the sign in was successful, redirect to the return url
                     return LocalRedirect(returnUrl);
                 }
+                else if (result.IsLockedOut)
+                {
+                    // if the user is locked out, add an error to the model state indicating that the account is locked out and redisplay the form
+                    ModelState.AddModelError("", "Your account has been locked out due to multiple failed login attempts. Please try again later.");
+                }
                 else
                 {
-                    // if the sign in was not successful, add an error to the model state and redisplay the form
+                    
+                    // if the user does not exist, add a generic error message to prevent user enumeration and redisplay the form
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
                 }
             }
 

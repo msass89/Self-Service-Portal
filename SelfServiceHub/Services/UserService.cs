@@ -23,6 +23,16 @@ namespace SelfServiceHub.Services
             return await _userManager.FindByEmailAsync(email);
         }
 
+        public async Task<int> GetAccessFailedCountAsync(ApplicationUser user)
+        {
+            return await _userManager.GetAccessFailedCountAsync(user);
+        }
+
+        public async Task<int> GetMaxFailedAccessAttemptsAsync()
+        {
+            return _userManager.Options.Lockout.MaxFailedAccessAttempts;
+        }
+
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password)
         {
             // Identity automatically hashes the password and stores it securely in the database
