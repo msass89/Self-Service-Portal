@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SelfServiceHub.Models;
 using SelfServiceHub.Services;
+using SelfServiceHub.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ var version = builder.Configuration["Database:ServerVersion"];
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TenantService>();
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(

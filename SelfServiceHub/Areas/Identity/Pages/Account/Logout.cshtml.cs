@@ -10,31 +10,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using SelfServiceHub.Models;
+using SelfServiceHub.Services.Auth;
 
 namespace SelfServiceHub.Areas.Identity.Pages.Account
 {
     public class LogoutModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly AuthService _authService;
 
-        public LogoutModel(SignInManager<ApplicationUser> signInManager)
+        public LogoutModel(AuthService authService)
         {
-            _signInManager = signInManager;
+            _authService = authService;
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            await _signInManager.SignOutAsync();
-            if (returnUrl != null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                // This needs to be a redirect so that the browser performs a new
-                // request and the identity for the user gets updated.
-                return RedirectToPage();
-            }
+            returnUrl ??= Url.Content("~/");
+
+            await _authService.LogoutAsync();
+
+            return LocalRedirect(returnUrl);
         }
 
         /*private readonly SignInManager<ApplicationUser> _signInManager;
