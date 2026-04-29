@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 
 namespace SelfServiceHub.Areas.Identity.Pages.Account

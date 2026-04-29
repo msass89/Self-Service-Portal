@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SelfServiceHub.Models.ViewModels;
+using SelfServiceHub.Services.EmailSender;
 
 namespace SelfServiceHub.Areas.Identity.Pages.Account
 {

@@ -1,4 +1,8 @@
-public interface IEmailSender
+
+namespace SelfServiceHub.Services.EmailSender
 {
-    Task SendAsync(string to, string subject, string htmlContent, string confirmationLink);
+    public interface IEmailSender
+    {
+        Task SendAsync(string to, string subject, string htmlContent, string? confirmationLink = null);
+    }
 }

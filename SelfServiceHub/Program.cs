@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 using SelfServiceHub.Services.Auth;
+using SelfServiceHub.Services.EmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ var version = builder.Configuration["Database:ServerVersion"];
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TenantService>();
 builder.Services.AddScoped<AuthService>();
+
+builder.Services.AddSingleton<IEmailQueue, EmailQueue>();
+builder.Services.AddHostedService<EmailBackgroundService>();
 
 if (builder.Environment.IsDevelopment())
 {
