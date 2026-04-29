@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SelfServiceHub.Models;
+using SelfServiceHub.Models.Entities;
 
 namespace SelfServiceHub.Services
 {

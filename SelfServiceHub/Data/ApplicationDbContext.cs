@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SelfServiceHub.Models;
+using SelfServiceHub.Models.Entities;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {

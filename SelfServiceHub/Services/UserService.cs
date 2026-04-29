@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using SelfServiceHub.Models;
+using SelfServiceHub.Models.Entities;
 
 namespace SelfServiceHub.Services
 {
@@ -23,14 +23,14 @@ namespace SelfServiceHub.Services
             return await _userManager.FindByEmailAsync(email);
         }
 
-        public async Task<int> GetAccessFailedCountAsync(ApplicationUser user)
+        public async Task<string> GenerateAccountConfirmationTokenAsync(ApplicationUser user)
         {
-            return await _userManager.GetAccessFailedCountAsync(user);
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
 
-        public async Task<int> GetMaxFailedAccessAttemptsAsync()
+        public async Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user, string token)
         {
-            return _userManager.Options.Lockout.MaxFailedAccessAttempts;
+            return await _userManager.ConfirmEmailAsync(user, token);
         }
 
         public async Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password)

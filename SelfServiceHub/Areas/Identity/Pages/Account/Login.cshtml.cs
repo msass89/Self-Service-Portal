@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using SelfServiceHub.Models;
+using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 using SelfServiceHub.Services.Auth;
 

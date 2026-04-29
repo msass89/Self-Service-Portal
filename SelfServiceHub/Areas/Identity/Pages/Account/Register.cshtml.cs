@@ -18,28 +18,30 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using SelfServiceHub.Models;
+using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 
 namespace SelfServiceHub.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {   
-
         private readonly UserService _userService;
         private readonly TenantService _tenantService;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserService userService,
             TenantService tenantService,
             SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
             ApplicationDbContext db)
         {
             _userService = userService;
             _tenantService = tenantService;
             _signInManager = signInManager;
+            _emailSender = emailSender;
             _db = db;
         }
 
@@ -77,10 +79,8 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync()
         {
-            returnUrl ??= Url.Content("~/");
-
             if (ModelState.IsValid)
             {
                 // Use a transaction to ensure that tenant and user creation are atomic operations
@@ -110,13 +110,26 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
 
                     await transaction.CommitAsync();
 
-                    await _userService.AddClaimAsync(user, "DisplayName", user.DisplayName); // Add display name claim for the user
-                    await _userService.AddUserToRoleAsync(user, "Admin"); // Assign admin role to the first user of the tenant
+                    // Add claims and roles for the user
+                    await _userService.AddClaimAsync(user, "DisplayName", user.DisplayName); 
+                    await _userService.AddUserToRoleAsync(user, "Admin"); 
 
-                    // Automatically sign in the user after successful registration
-                    // Note: In a real application, you might want to require email confirmation before signing in
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    
+                    // Generate email confirmation token and send confirmation email
+                    var token = await _userService.GenerateAccountConfirmationTokenAsync(user);
+                    var confirmationLink = GenerateConfirmationLink(user, token);
+                    
+                    Console.WriteLine($"Confirmation link: {confirmationLink}"); // Log the confirmation link for testing purposes
+
+                    await _emailSender.SendAsync(
+                        user.Email,
+                        "Confirm your account",
+                        $"Please confirm your account: <a href='{confirmationLink}'>Confirm</a>",
+                        confirmationLink
+                    );
+
+                    // redirect to a page that instructs the user to check their email for the confirmation link
+                    return RedirectToPage("/Account/RegisterConfirmation");
                 }
                 catch (Exception ex)
                 {
@@ -152,6 +165,17 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
                 Name = Input.TenantName
             };
             return tenant;
+        }
+
+        private string GenerateConfirmationLink(ApplicationUser user, string token)
+        {
+            var confirmationLink = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { userId = user.Id, token = token },
+                protocol: Request.Scheme
+            );
+            return confirmationLink;
         }
         
         /*

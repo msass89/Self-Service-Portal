@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SelfServiceHub.Models;
+using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 using SelfServiceHub.Services.Auth;
 
@@ -12,6 +12,15 @@ var version = builder.Configuration["Database:ServerVersion"];
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TenantService>();
 builder.Services.AddScoped<AuthService>();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddScoped<IEmailSender, DevEmailSender>();
+}
+else
+{
+    //builder.Services.AddScoped<IEmailSender, SendGridEmailSender>();
+}
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
@@ -25,7 +34,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // and enables token providers for password reset and email confirmation
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false; // set to true in production to require email confirmation
+    options.SignIn.RequireConfirmedAccount = true;
     options.User.RequireUniqueEmail = true;
 
     // configure account lockout settings to lock out users after 5 failed login attempts for 5 minutes

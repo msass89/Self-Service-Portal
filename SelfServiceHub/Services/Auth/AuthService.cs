@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using SelfServiceHub.Models;
+using SelfServiceHub.Models.Entities;
 
 namespace SelfServiceHub.Services.Auth
 {

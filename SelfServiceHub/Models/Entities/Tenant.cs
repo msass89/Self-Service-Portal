@@ -1,4 +1,4 @@
-namespace SelfServiceHub.Models
+namespace SelfServiceHub.Models.Entities
 {
     public class Tenant
     {
