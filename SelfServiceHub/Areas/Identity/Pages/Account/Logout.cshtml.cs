@@ -23,13 +23,11 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
             _authService = authService;
         }
 
-        public async Task<IActionResult> OnPost(string returnUrl = null)
+        public async Task<IActionResult> OnPost()
         {
-            returnUrl ??= Url.Content("~/");
-
             await _authService.LogoutAsync();
 
-            return LocalRedirect(returnUrl);
+            return RedirectToPage("/Account/LogoutSuccess");
         }
 
         /*private readonly SignInManager<ApplicationUser> _signInManager;

@@ -52,11 +52,8 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync()
         {
-            //set the return url to the home page
-            returnUrl ??= Url.Content("~/");
-
             if (ModelState.IsValid)
             {
                 // use the sign in manager to sign in the user
@@ -64,7 +61,7 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
                 if (result == LoginResult.Success)
                 {
                     // if the sign in was successful, redirect to the return url
-                    return LocalRedirect(returnUrl);
+                    return RedirectToPage("/Account/LoginSuccess");
                 }
                 else if (result == LoginResult.LockedOut)
                 {
