@@ -5,7 +5,6 @@ namespace SelfServiceHub.Services.EmailSender
     {
         private readonly IEmailQueue _queue;
         private readonly IServiceScopeFactory _scopeFactory;
-        //private readonly IEmailSender _emailSender;
 
         public EmailBackgroundService(IEmailQueue queue, IServiceScopeFactory scopeFactory)
         {
@@ -17,6 +16,7 @@ namespace SelfServiceHub.Services.EmailSender
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                // get the next email message from the queue (this will wait if the queue is empty)
                 var message = await _queue.DequeueAsync(stoppingToken);
 
                 //as IEmailSender is registered as a scoped service, create a new scope to get a new instance for each email
@@ -25,6 +25,7 @@ namespace SelfServiceHub.Services.EmailSender
 
                 try
                 {
+                    // send the email using the IEmailSender service
                     await emailSender.SendAsync(
                         message.To,
                         message.Subject,

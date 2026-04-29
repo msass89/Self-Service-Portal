@@ -4,14 +4,14 @@ using SelfServiceHub.Services.EmailSender;
 
 namespace SelfServiceHub.Areas.Identity.Pages.Account
 {
-    public class RegisterConfirmationModel : PageModel
+    public class EmailConfirmationSent : PageModel
     {
         private readonly IWebHostEnvironment _env;
         private readonly IEmailSender _emailSender;
 
         public RegisterConfirmationViewModel ViewModel { get; set; }
 
-        public RegisterConfirmationModel(IWebHostEnvironment env, IEmailSender emailSender)
+        public EmailConfirmationSent(IWebHostEnvironment env, IEmailSender emailSender)
         {
             _env = env;
             _emailSender = emailSender;

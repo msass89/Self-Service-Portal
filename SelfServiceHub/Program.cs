@@ -4,19 +4,24 @@ using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 using SelfServiceHub.Services.Auth;
 using SelfServiceHub.Services.EmailSender;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // configure the MySQL database connection with Entity Framework Core
 var version = builder.Configuration["Database:ServerVersion"];
 
+// add services
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TenantService>();
 builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddSingleton<IEmailQueue, EmailQueue>();
 builder.Services.AddHostedService<EmailBackgroundService>();
+builder.Services.AddScoped<IAccountEmailService, AccountEmailService>();
+builder.Services.AddHttpContextAccessor();
 
+// use the DevEmailSender in development, and a real email sender in production
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddScoped<IEmailSender, DevEmailSender>();
@@ -26,6 +31,13 @@ else
     //builder.Services.AddScoped<IEmailSender, SendGridEmailSender>();
 }
 
+// configure the token lifespan for password reset and email confirmation tokens to 2 hours
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+{
+    options.TokenLifespan = TimeSpan.FromHours(2);
+});
+
+// add the ApplicationDbContext with MySQL provider and connection string from configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),

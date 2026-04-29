@@ -1,12 +1,11 @@
 @page
-@model RegisterConfirmationModel
+@model EmailConfirmationSent
 
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="text-center">
-        <h2>Registration successful</h2>
-
         @if (Model.ViewModel.IsDevelopment && Model.ViewModel.ConfirmationLink != null)
         {
+            <h1 class="mb-4">Email Confirmation Sent (Dev Mode)</h1>
             <p>Dev-Mode: Please click the link below to confirm your account.</p>
 
             <a href="@Model.ViewModel.ConfirmationLink"
@@ -16,7 +15,7 @@
         }
         else
         {
-            <p>Please check your emails.</p>
+            <p>Confirmation email has been sent. Please check your emails.</p>
         }
 
     </div>

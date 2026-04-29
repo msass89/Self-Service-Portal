@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 using SelfServiceHub.Services.EmailSender;
-using SelfServiceHub.Models.DTO;
+using SelfServiceHub.Models.Messages;
 
 namespace SelfServiceHub.Areas.Identity.Pages.Account
 {
@@ -14,20 +14,20 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
         private readonly UserService _userService;
         private readonly TenantService _tenantService;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailQueue _emailQueue;
+        private readonly IAccountEmailService _accountEmailService;
         private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserService userService,
             TenantService tenantService,
             SignInManager<ApplicationUser> signInManager,
-            IEmailQueue emailQueue,
+            IAccountEmailService accountEmailService,
             ApplicationDbContext db)
         {
             _userService = userService;
             _tenantService = tenantService;
             _signInManager = signInManager;
-            _emailQueue = emailQueue;
+            _accountEmailService = accountEmailService;
             _db = db;
         }
 
@@ -100,12 +100,16 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
                     await _userService.AddClaimAsync(user, "DisplayName", user.DisplayName); 
                     await _userService.AddUserToRoleAsync(user, "Admin"); 
 
-                    
+                    await _accountEmailService.SendConfirmationEmailAsync(user);
+
                     // Generate email confirmation token and send confirmation email
-                    var token = await _userService.GenerateAccountConfirmationTokenAsync(user);
-                    var confirmationLink = GenerateConfirmationLink(user, token);
-                    
-                    Console.WriteLine($"Confirmation link: {confirmationLink}"); // Log the confirmation link for testing purposes
+                    /*var token = await _userService.GenerateAccountConfirmationTokenAsync(user);
+                    var confirmationLink = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { userId = user.Id, token = token },
+                        protocol: Request.Scheme
+                    );
 
                     await _emailQueue.EnqueueAsync(new EmailQueueMessage
                     {
@@ -113,10 +117,10 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
                         Subject = "Confirm your account",
                         HtmlContent = $"Please confirm your account: <a href='{confirmationLink}'>Confirm</a>",
                         ConfirmationLink = confirmationLink
-                    });
+                    });*/
 
                     // redirect to a page that instructs the user to check their email for the confirmation link
-                    return RedirectToPage("/Account/RegisterConfirmation");
+                    return RedirectToPage("/Account/EmailConfirmationSent");
                 }
                 catch (Exception ex)
                 {
@@ -152,17 +156,6 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
                 Name = Input.TenantName
             };
             return tenant;
-        }
-
-        private string GenerateConfirmationLink(ApplicationUser user, string token)
-        {
-            var confirmationLink = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = user.Id, token = token },
-                protocol: Request.Scheme
-            );
-            return confirmationLink;
         }
         
         /*
