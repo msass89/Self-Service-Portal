@@ -53,20 +53,5 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
 
             return Page();
         }
-
-
-        public async Task<IActionResult> OnPostResendAsync()
-        {
-            var user = await _userService.GetUserByIdAsync(UserId);
-
-            Console.WriteLine($"Resend confirmation email for user: {user?.Email}");
-
-            if (user != null && !user.EmailConfirmed)
-            {
-                await _accountEmailService.SendConfirmationEmailAsync(user);
-            }
-
-            return RedirectToPage("/Account/EmailConfirmationSent");
-        }
     }
 }

@@ -21,11 +21,16 @@ namespace SelfServiceHub.Services.Auth
                 lockoutOnFailure: true //set lockoutOnFailure to true to enable account lockout
             );
 
+            Console.WriteLine($"PasswordSignInAsync result for {email}: {result}");
+
             if (result.Succeeded)
                 return LoginResult.Success;
 
             if (result.IsLockedOut)
                 return LoginResult.LockedOut;
+
+            if (result.IsNotAllowed)
+                return LoginResult.NotAllowed;
 
             return LoginResult.Failed;
         }

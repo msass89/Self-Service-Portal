@@ -33,10 +33,10 @@ namespace SelfServiceHub.Services.EmailSender
                         message.ConfirmationLink
                     );
                 }
-                catch (Exception ex)
+                catch (OperationCanceledException)
                 {
-                    Console.WriteLine($"Email failed: {ex.Message}");
-                    // später: Retry-Logik
+                    // The operation was canceled, likely due to application shutdown. Just exit the loop.
+                    break;
                 }
             }
         }

@@ -5,6 +5,7 @@ namespace SelfServiceHub.Services.Auth
     {
         Success,
         Failed,
-        LockedOut
+        LockedOut,
+        NotAllowed
     }
 }
