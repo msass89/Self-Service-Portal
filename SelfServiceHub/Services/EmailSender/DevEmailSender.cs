@@ -8,14 +8,14 @@ namespace SelfServiceHub.Services.EmailSender
         public static List<EmailQueueMessage> SentEmails = new();
 
         // This is a development email sender that simulates sending emails by storing them in memory.
-        public Task SendAsync(string to, string subject, string htmlContent, string? confirmationLink)
+        public Task SendAsync(string to, string subject, string htmlContent, string? link)
         {
             SentEmails.Add(new EmailQueueMessage
             {
                 To = to,
                 Subject = subject,
                 HtmlContent = htmlContent,
-                ConfirmationLink = confirmationLink,
+                Link = link,
                 SentAt = DateTime.UtcNow
             });
 

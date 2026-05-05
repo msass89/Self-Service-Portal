@@ -45,7 +45,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     )
 );
 
-// add identity services with ApplicationUser and IdentityRoles,
 // configure to use Entity Framework Core for storing user data, 
 // and enables token providers for password reset and email confirmation
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>

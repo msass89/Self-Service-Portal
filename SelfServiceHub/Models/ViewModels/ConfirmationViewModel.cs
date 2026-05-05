@@ -1,9 +1,9 @@
 namespace SelfServiceHub.Models.ViewModels
 {
-    public class RegisterConfirmationViewModel
+    public class ConfirmationViewModel
     {
         public bool IsDevelopment { get; set; }
-        public string? ConfirmationLink { get; set; }
+        public string? Link { get; set; }
     }
 }
 

@@ -30,7 +30,7 @@ namespace SelfServiceHub.Services.EmailSender
                         message.To,
                         message.Subject,
                         message.HtmlContent,
-                        message.ConfirmationLink
+                        message.Link
                     );
                 }
                 catch (OperationCanceledException)

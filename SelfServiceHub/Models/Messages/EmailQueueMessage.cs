@@ -5,7 +5,7 @@ namespace SelfServiceHub.Models.Messages
         public string To { get; set; }
         public string Subject { get; set; }
         public string HtmlContent { get; set; }
-        public string? ConfirmationLink { get; set; }
+        public string? Link { get; set; }
         public DateTime SentAt { get; set; }
     }
 }
