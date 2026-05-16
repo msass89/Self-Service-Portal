@@ -1,4 +1,4 @@
-namespace SelfServiceHub.Models.Messages
+namespace SelfServiceHub.Models.DTO
 {
     public class EmailQueueMessage
     {

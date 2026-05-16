@@ -2,6 +2,7 @@
 # === Konfigurationsdateien ===
 SelfServiceHub/appsettings.json
 SelfServiceHub/appsettings.Development.json
+SelfServiceHub/Properties/launchSettings.json
 
 # === Build- und Ausgabeverzeichnisse ===
 bin/

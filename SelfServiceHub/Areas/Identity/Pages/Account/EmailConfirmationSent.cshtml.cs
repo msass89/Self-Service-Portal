@@ -7,14 +7,12 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
     public class EmailConfirmationSent : PageModel
     {
         private readonly IWebHostEnvironment _env;
-        private readonly IEmailSender _emailSender;
 
         public ConfirmationViewModel ViewModel { get; set; }
 
-        public EmailConfirmationSent(IWebHostEnvironment env, IEmailSender emailSender)
+        public EmailConfirmationSent(IWebHostEnvironment env)
         {
             _env = env;
-            _emailSender = emailSender;
         }
 
         public void OnGet()

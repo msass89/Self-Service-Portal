@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SelfServiceHub.Models.Entities;
@@ -12,20 +11,17 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
     {   
         private readonly UserService _userService;
         private readonly TenantService _tenantService;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IAccountEmailService _accountEmailService;
+        private readonly AccountEmailService _accountEmailService;
         private readonly ApplicationDbContext _db;
 
         public RegisterModel(
             UserService userService,
             TenantService tenantService,
-            SignInManager<ApplicationUser> signInManager,
-            IAccountEmailService accountEmailService,
+            AccountEmailService accountEmailService,
             ApplicationDbContext db)
         {
             _userService = userService;
             _tenantService = tenantService;
-            _signInManager = signInManager;
             _accountEmailService = accountEmailService;
             _db = db;
         }
@@ -100,23 +96,6 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
                     await _userService.AddUserToRoleAsync(user, "Admin"); 
 
                     await _accountEmailService.SendConfirmationEmailAsync(user);
-
-                    // Generate email confirmation token and send confirmation email
-                    /*var token = await _userService.GenerateAccountConfirmationTokenAsync(user);
-                    var confirmationLink = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { userId = user.Id, token = token },
-                        protocol: Request.Scheme
-                    );
-
-                    await _emailQueue.EnqueueAsync(new EmailQueueMessage
-                    {
-                        To = user.Email,
-                        Subject = "Confirm your account",
-                        HtmlContent = $"Please confirm your account: <a href='{confirmationLink}'>Confirm</a>",
-                        ConfirmationLink = confirmationLink
-                    });*/
 
                     // redirect to a page that instructs the user to check their email for the confirmation link
                     return RedirectToPage("/Account/EmailConfirmationSent");

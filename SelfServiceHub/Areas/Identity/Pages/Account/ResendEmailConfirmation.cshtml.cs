@@ -12,9 +12,9 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
     public class ResendEmailConfirmationModel : PageModel
     {
         private readonly UserService _userService;
-        private readonly IAccountEmailService _accountEmailService;
+        private readonly AccountEmailService _accountEmailService;
 
-        public ResendEmailConfirmationModel(UserService userService, IAccountEmailService accountEmailService)
+        public ResendEmailConfirmationModel(UserService userService, AccountEmailService accountEmailService)
         {
             _userService = userService;
             _accountEmailService = accountEmailService;

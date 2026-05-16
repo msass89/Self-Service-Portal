@@ -1,15 +1,18 @@
 @page
 @model ConfirmEmailModel
+@{
+    ViewData["Title"] = "Email Confirmation";
+}
 
-@if (Model.IsConfirmed)
-{
-    <div style="text-align:center; margin-top:100px;">
+<div class="centered-content">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+    @if (Model.IsConfirmed)
+    {
         <h2>Account confirmed ✅</h2>
         <p>You can now sign in.</p>
-    </div>
-}
-else
-{   <div style="text-align:center; margin-top:100px;">
+    }
+    else
+    {   
         <h2>Invalid confirmation link ❌</h2> <p>The confirmation link is invalid or has expired.</p> 
-    </div>
-}
+    }
+</div>

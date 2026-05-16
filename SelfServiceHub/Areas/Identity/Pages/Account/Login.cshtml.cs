@@ -17,9 +17,6 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /*[BindProperty]
-        public string ReturnUrl { get; set; }*/
-
         public class InputModel
         {
             [Required]

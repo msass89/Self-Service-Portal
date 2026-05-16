@@ -1,9 +1,10 @@
 @page
+@{
+    ViewData["Title"] = "Logout successful";
+}
 
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="text-center">
-        <h2>Logout successful</h2>
-        <p>You have been logged out successfully.</p>
-        <a class="btn btn-primary" asp-page="/Index">Back to Home</a>
-    </div>
+<div class="centered-content">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+    <p>You have been logged out successfully.</p>
+    <a class="btn btn-primary w-auto" asp-page="/Index">Back to Home</a>
 </div>

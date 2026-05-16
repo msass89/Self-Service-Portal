@@ -4,11 +4,11 @@
     ViewData["Title"] = "Login";
 }
 
-<h1 class="text-center mb-4">@ViewData["Title"]</h1>
 <div class="form-container">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+    <h2>Login with your account</h2>
+    <hr />
     <form id="account" method="post">
-        <h2>Login with your account</h2>
-        <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
         <div class="form-floating mb-3">
             <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
@@ -27,7 +27,7 @@
             </label>
         </div>
         <div>
-            <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            <button id="login-submit" type="submit" class="btn btn-lg btn-primary">Log in</button>
         </div>
         <div>
             <p>

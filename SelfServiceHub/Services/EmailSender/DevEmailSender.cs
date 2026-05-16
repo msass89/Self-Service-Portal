@@ -1,4 +1,4 @@
-using SelfServiceHub.Models.Messages;
+using SelfServiceHub.Models.DTO;
 
 namespace SelfServiceHub.Services.EmailSender
 {

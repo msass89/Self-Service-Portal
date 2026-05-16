@@ -1,9 +1,9 @@
 using System.Threading.Channels;
-using SelfServiceHub.Models.Messages;
+using SelfServiceHub.Models.DTO;
 
 namespace SelfServiceHub.Services.EmailSender
 {
-    public class EmailQueue : IEmailQueue
+    public class EmailQueue
     {
         private readonly Channel<EmailQueueMessage> _queue;
 

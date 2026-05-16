@@ -6,18 +6,16 @@ using SelfServiceHub.Models.ViewModels;
 namespace SelfServiceHub.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ForgotPasswordConfirmation : PageModel
+    public class ForgotPasswordTokenSent : PageModel
     {
 
         private readonly IWebHostEnvironment _env;
-        private readonly IEmailSender _emailSender;
 
         public ConfirmationViewModel ViewModel { get; set; }
 
-        public ForgotPasswordConfirmation(IWebHostEnvironment env, IEmailSender emailSender)
+        public ForgotPasswordTokenSent(IWebHostEnvironment env)
         {
             _env = env;
-            _emailSender = emailSender;
         }
         public void OnGet()
         {

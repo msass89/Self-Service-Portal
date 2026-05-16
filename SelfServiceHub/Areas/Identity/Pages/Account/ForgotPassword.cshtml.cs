@@ -10,9 +10,9 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserService _userService;
-        private readonly IAccountEmailService _accountEmailService;
+        private readonly AccountEmailService _accountEmailService;
 
-        public ForgotPasswordModel(UserService userService, IAccountEmailService accountEmailService)
+        public ForgotPasswordModel(UserService userService, AccountEmailService accountEmailService)
         {
             _userService = userService;
             _accountEmailService = accountEmailService;
@@ -33,14 +33,15 @@ namespace SelfServiceHub.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _userService.GetUserByEmailAsync(Input.Email);
+
                 if (user == null || !await _userService.IsEmailConfirmedAsync(user))
                 {
-                    return RedirectToPage("./ForgotPasswordConfirmation");
+                    return RedirectToPage("./ForgotPasswordTokenSent");
                 }
 
-                await _accountEmailService.SendPasswordResetEmailAsync(user);
+                await _accountEmailService.SendPasswordResetEmailAsync(user);                
 
-                return RedirectToPage("./ForgotPasswordConfirmation");
+                return RedirectToPage("./ForgotPasswordTokenSent");
             }
 
             return Page();

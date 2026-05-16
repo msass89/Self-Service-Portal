@@ -16,9 +16,9 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TenantService>();
 builder.Services.AddScoped<AuthService>();
 
-builder.Services.AddSingleton<IEmailQueue, EmailQueue>();
+builder.Services.AddSingleton<EmailQueue>();
 builder.Services.AddHostedService<EmailBackgroundService>();
-builder.Services.AddScoped<IAccountEmailService, AccountEmailService>();
+builder.Services.AddScoped<AccountEmailService>();
 builder.Services.AddHttpContextAccessor();
 
 // use the DevEmailSender in development, and a real email sender in production

@@ -1,19 +1,18 @@
 using SelfServiceHub.Models.Entities;
-using Microsoft.AspNetCore.Identity;
-using SelfServiceHub.Models.Messages;
+using SelfServiceHub.Models.DTO;
 
 namespace SelfServiceHub.Services.EmailSender
 {
-    public class AccountEmailService : IAccountEmailService
+    public class AccountEmailService
     {
         private readonly UserService _userService;
-        private readonly IEmailQueue _emailQueue;
+        private readonly EmailQueue _emailQueue;
         private readonly LinkGenerator _linkGenerator;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountEmailService(
             UserService userService,
-            IEmailQueue emailQueue,
+            EmailQueue emailQueue,
             LinkGenerator linkGenerator,
             IHttpContextAccessor httpContextAccessor)
         {

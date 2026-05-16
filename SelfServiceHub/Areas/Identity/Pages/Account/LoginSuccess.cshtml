@@ -1,7 +1,9 @@
 @page
+@{
+    ViewData["Title"] = "Login successful";
+}
 
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="text-center">
-        <h2>Login successful. Welcome @User.FindFirst("DisplayName")?.Value!</h2>
-    </div>
+<div class="centered-content">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+    <p>Welcome, @User.FindFirst("DisplayName")?.Value!</p>
 </div>
