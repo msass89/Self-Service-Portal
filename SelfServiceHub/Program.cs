@@ -28,6 +28,9 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
+    // in production, you would configure a real email sender, such as SendGrid
+    // for demo purposes, we'll just use the DevEmailSender
+    builder.Services.AddScoped<IEmailSender, DevEmailSender>();
     //builder.Services.AddScoped<IEmailSender, SendGridEmailSender>();
 }
 

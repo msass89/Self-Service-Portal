@@ -17,6 +17,16 @@
     }
     else
     {
-        <p>Please check your emails to confirm your account.</p>
+        <p>Dev-Mode: Please click the link below to confirm your account.</p>
+
+        <a href="@Model.ViewModel.Link"
+            class="btn btn-primary w-auto">
+            Confirm Account
+        </a>
+
+        <!-- For demo purposes, we're showing the link here.
+        In real application, we would switch to displaying a message instructing the user to check their emails. -->
+
+        <!-- <p>Please check your emails to confirm your account.</p> -->
     }
 </div>
