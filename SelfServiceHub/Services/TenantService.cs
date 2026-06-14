@@ -11,10 +11,8 @@ namespace SelfServiceHub.Services
             _db = db;
         }
 
-        // Example method to find tenant by ID (this can be expanded as needed)
         public async Task<Tenant?> FindTenantById(string tenantId)
         {
-            // In a real application, this would likely query a database or external service
             return await _db.Tenants.FirstOrDefaultAsync(t => t.Id.ToString() == tenantId);
         }
 

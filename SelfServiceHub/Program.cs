@@ -21,9 +21,10 @@ builder.Services.AddHostedService<EmailBackgroundService>();
 builder.Services.AddScoped<AccountEmailService>();
 builder.Services.AddHttpContextAccessor();
 
-// use the DevEmailSender in development, and a real email sender in production
+
 if (builder.Environment.IsDevelopment())
 {
+    //use the DevEmailSender in development
     builder.Services.AddScoped<IEmailSender, DevEmailSender>();
 }
 else
