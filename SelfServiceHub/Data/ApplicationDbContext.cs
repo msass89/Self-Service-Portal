@@ -18,4 +18,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     // creates table for tenants
     public DbSet<Tenant> Tenants { get; set; }
+
 }

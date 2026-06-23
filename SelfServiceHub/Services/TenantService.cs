@@ -33,16 +33,30 @@ namespace SelfServiceHub.Services
             await _db.SaveChangesAsync();
         }
 
-        public async Task UpdateTenant(Tenant tenant)
+        public async Task<bool> UpdateTenant(Tenant tenant)
         {
-            _db.Tenants.Update(tenant);
+            var existing = await _db.Tenants.FirstOrDefaultAsync(t => t.Id.ToString() == tenant.Id.ToString());
+            
+            if (existing == null)
+                return false;
+
+            _db.Entry(existing).CurrentValues.SetValues(tenant);
             await _db.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task DeleteTenant(Tenant tenant)
+        public async Task<bool> DeleteTenant(string TenantId)
         {
+            var tenant = await _db.Tenants.FirstOrDefaultAsync(t => t.Id.ToString() == TenantId);
+
+            if (tenant == null)
+                return false;
+
             _db.Tenants.Remove(tenant);
             await _db.SaveChangesAsync();
+
+            return true;
         }
 
     }
