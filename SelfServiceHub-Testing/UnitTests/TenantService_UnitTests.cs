@@ -1,12 +1,6 @@
-using Microsoft.AspNetCore.Identity;
-using Moq;
-using SelfServiceHub.UnitTests.TestHelpers;
 using SelfServiceHub.Services;
 using SelfServiceHub.Models.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
 namespace SelfServiceHub.UnitTests.Services
 {

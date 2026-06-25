@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,6 +22,10 @@ namespace SelfServiceHub.UnitTests.TestHelpers
                 new Mock<IServiceProvider>().Object,
                 new Mock<ILogger<UserManager<ApplicationUser>>>().Object
             );
+            
+            userManagerMock
+                .Setup(m => m.GenerateEmailConfirmationTokenAsync(It.IsAny<ApplicationUser>()))
+                .ReturnsAsync("TOKEN123");
 
             return userManagerMock;
         }

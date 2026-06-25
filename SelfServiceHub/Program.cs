@@ -16,7 +16,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TenantService>();
 builder.Services.AddScoped<AuthService>();
 
-builder.Services.AddSingleton<EmailQueue>();
+builder.Services.AddSingleton<IEmailQueue, EmailQueue>();
 builder.Services.AddHostedService<EmailBackgroundService>();
 builder.Services.AddScoped<AccountEmailService>();
 builder.Services.AddHttpContextAccessor();

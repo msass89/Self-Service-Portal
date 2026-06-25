@@ -3,10 +3,10 @@ namespace SelfServiceHub.Services.EmailSender
 {
     public class EmailBackgroundService : BackgroundService
     {
-        private readonly EmailQueue _queue;
+        private readonly IEmailQueue _queue;
         private readonly IServiceScopeFactory _scopeFactory;
 
-        public EmailBackgroundService(EmailQueue queue, IServiceScopeFactory scopeFactory)
+        public EmailBackgroundService(IEmailQueue queue, IServiceScopeFactory scopeFactory)
         {
             _queue = queue;
             _scopeFactory = scopeFactory;

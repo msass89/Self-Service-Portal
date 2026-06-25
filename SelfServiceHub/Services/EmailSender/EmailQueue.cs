@@ -3,7 +3,7 @@ using SelfServiceHub.Models.DTO;
 
 namespace SelfServiceHub.Services.EmailSender
 {
-    public class EmailQueue
+    public class EmailQueue : IEmailQueue
     {
         private readonly Channel<EmailQueueMessage> _queue;
 
@@ -15,13 +15,13 @@ namespace SelfServiceHub.Services.EmailSender
         // Enqueue a new email message to be sent
         public async Task EnqueueAsync(EmailQueueMessage message)
         {
-            await _queue.Writer.WriteAsync(message);
+            await _queue.Writer.WriteAsync(message).AsTask();
         }
 
         // Dequeue the next email message to be sent (this will wait if the queue is empty)
         public async Task<EmailQueueMessage> DequeueAsync(CancellationToken cancellationToken)
         {
-            return await _queue.Reader.ReadAsync(cancellationToken);
+            return await _queue.Reader.ReadAsync(cancellationToken).AsTask();
         }
     }
 }

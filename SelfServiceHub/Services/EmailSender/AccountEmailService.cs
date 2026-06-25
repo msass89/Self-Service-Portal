@@ -6,14 +6,14 @@ namespace SelfServiceHub.Services.EmailSender
     public class AccountEmailService
     {
         private readonly UserService _userService;
-        private readonly EmailQueue _emailQueue;
-        private readonly LinkGenerator _linkGenerator;
+        private readonly IEmailQueue _emailQueue;
+        private readonly ILinkGenerator _linkGenerator;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public AccountEmailService(
             UserService userService,
-            EmailQueue emailQueue,
-            LinkGenerator linkGenerator,
+            IEmailQueue emailQueue,
+            ILinkGenerator linkGenerator,
             IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
@@ -26,7 +26,7 @@ namespace SelfServiceHub.Services.EmailSender
         {
             // Generate confirmation token and encode it for URL safety
             var token = await _userService.GenerateAccountConfirmationTokenAsync(user);
-            var confirmationLink = GenerateLink("/Account/ConfirmEmail", user.Id, token);
+            var confirmationLink = _linkGenerator.GenerateLink("/Account/ConfirmEmail", user.Id, token);
 
             // Encode user input and link for HTML safety to prevent XSS attacks
             var safeEmail = System.Net.WebUtility.HtmlEncode(user.Email);
@@ -45,7 +45,7 @@ namespace SelfServiceHub.Services.EmailSender
         {
             // Generate password reset token and encode it for URL safety
             var token = await _userService.GeneratePasswordResetTokenAsync(user);
-            var resetLink = GenerateLink("/Account/ResetPassword", user.Id, token);
+            var resetLink = _linkGenerator.GenerateLink("/Account/ResetPassword", user.Id, token);
 
             // Encode user input and link for HTML safety to prevent XSS attacks
             var safeEmail = System.Net.WebUtility.HtmlEncode(user.Email);
@@ -61,7 +61,7 @@ namespace SelfServiceHub.Services.EmailSender
         }
 
         // Helper method to generate links with dynamic scheme based on environment
-        private string GenerateLink(string page, string userId, string token)
+        /*public string GenerateLink(string page, string userId, string token)
         {
             // Encode the token and user ID for URL safety
             var encodedToken = Microsoft.AspNetCore.WebUtilities.WebEncoders.Base64UrlEncode(System.Text.Encoding.UTF8.GetBytes(token));
@@ -72,7 +72,8 @@ namespace SelfServiceHub.Services.EmailSender
             var scheme = httpContext?.Request?.IsHttps == true ? "https" :
                 (httpContext?.Request?.Host.Host == "localhost" ? "http" : "https");
 
-            return _linkGenerator.GetUriByPage(
+
+           return _linkGenerator.GetUriByPage(
                 httpContext,
                 page: page,
                 values: new
@@ -83,6 +84,6 @@ namespace SelfServiceHub.Services.EmailSender
                 },
                 scheme: scheme
             );
-        }
+        }*/
     }
 }
