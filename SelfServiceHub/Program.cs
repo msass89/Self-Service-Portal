@@ -4,7 +4,6 @@ using SelfServiceHub.Models.Entities;
 using SelfServiceHub.Services;
 using SelfServiceHub.Services.Auth;
 using SelfServiceHub.Services.EmailSender;
-using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +14,11 @@ var version = builder.Configuration["Database:ServerVersion"];
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<TenantService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<AccountEmailService>();
 
 builder.Services.AddSingleton<IEmailQueue, EmailQueue>();
+builder.Services.AddSingleton<ILinkGenerator, LinkGeneratorService>();
 builder.Services.AddHostedService<EmailBackgroundService>();
-builder.Services.AddScoped<AccountEmailService>();
 builder.Services.AddHttpContextAccessor();
 
 

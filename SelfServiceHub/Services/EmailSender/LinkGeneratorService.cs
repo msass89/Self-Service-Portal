@@ -1,12 +1,12 @@
 
 namespace SelfServiceHub.Services.EmailSender
 {
-    public class AppLinkGenerator : ILinkGenerator
+    public class LinkGeneratorService : ILinkGenerator
     {
         private readonly LinkGenerator _linkGenerator;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AppLinkGenerator(LinkGenerator linkGenerator, IHttpContextAccessor httpContextAccessor)
+        public LinkGeneratorService(LinkGenerator linkGenerator, IHttpContextAccessor httpContextAccessor)
         {
             _linkGenerator = linkGenerator;
             _httpContextAccessor = httpContextAccessor;
