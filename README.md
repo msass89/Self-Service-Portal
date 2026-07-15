@@ -99,3 +99,7 @@ Pages/
 Program.cs
 
 ```
+
+## Licence
+
+Copyright (c) 2026 Maike Saß - MIT Licence
